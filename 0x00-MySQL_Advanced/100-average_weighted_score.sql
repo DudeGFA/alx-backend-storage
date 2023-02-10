@@ -2,7 +2,7 @@
 -- ComputeAverageWeightedScoreForUser that computes and
 -- store the average weighted score for a student
 DELIMITER $$ ;
-CREATE PROCEDURE ComputeAverageScoreForUser(IN user_id INT)
+CREATE PROCEDURE ComputeAverageScoreForUser(user_id INT)
 BEGIN
     DECLARE weighted_score_sum INT DEFAULT 0;
     DECLARE weight_sum INT DEFAULT 0;
@@ -21,7 +21,7 @@ BEGIN
     ON corrections.project_id = projects.id
     WHERE corrections.user_id = user_id;
 
-    IF total_weight = 0 THEN
+    IF weight_sum = 0 THEN
         UPDATE users
         SET users.average_score = 0
         WHERE users.id = user_id;
@@ -30,5 +30,5 @@ BEGIN
         SET users.average_score = weighted_score_sum / weight_sum
         WHERE users.id = user_id;
     END IF;
-END;$$
+END $$
 DELIMITER ;
