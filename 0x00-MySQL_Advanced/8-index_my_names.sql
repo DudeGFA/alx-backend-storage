@@ -1,2 +1,3 @@
---  SQL script that creates a stored procedure AddBonus that adds a new correction for a student.
+--   SQL script that creates an index idx_name_first on
+-- the table names and the first letter of name.
 CREATE INDEX idx_name_first ON names (name(1));
