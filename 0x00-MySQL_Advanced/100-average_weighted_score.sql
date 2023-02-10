@@ -4,12 +4,31 @@
 DELIMITER $$ ;
 CREATE PROCEDURE ComputeAverageScoreForUser(IN user_id INT)
 BEGIN
-    SET _weight  = (
-        SELECT weight FROM projects WHERE id = user_id)
-    SET _score = (SELECT score
-        FROM corrections WHERE corrections.user_id = user_id)
-    UPDATE users
-    SET average_score = SUM( _score * _weight) / SUM(_weight)
-    WHERE id = user_id;
+    DECLARE weighted_score_sum INT DEFAULT 0;
+    DECLARE weight_sum INT DEFAULT 0;
+
+    SELECT SUM(corrections.score * projects.weight)
+        INTO weighted_score_sum
+        FROM corrections
+        INNER JOIN projects
+        ON corrections.project_id = projects.id
+        WHERE corrections.user_id = user_id;
+
+    SELECT SUM(projects.weight)
+    INTO weight_sum
+    FROM corrections
+    INNER JOIN projects
+    ON corrections.project_id = projects.id
+    WHERE corrections.user_id = user_id;
+
+    IF total_weight = 0 THEN
+        UPDATE users
+        SET users.average_score = 0
+        WHERE users.id = user_id;
+    ELSE
+        UPDATE users
+        SET users.average_score = weighted_score_sum / weight_sum
+        WHERE users.id = user_id;
+    END IF;
 END;$$
 DELIMITER ;
