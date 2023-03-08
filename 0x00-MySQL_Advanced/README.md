@@ -143,4 +143,4 @@ Write a SQL script that creates a stored procedure `ComputeAverageWeightedScoreF
 - Procedure `ComputeAverageWeightedScoreForUsers` is not taking any input.          
 **Tips:**       
 
-- [Calculate-Weighted-Average](https://intranet.alxswe.com/rltoken/QHx92mlF43zF6GTEil-Cyw)
+    - [Calculate-Weighted-Average](https://intranet.alxswe.com/rltoken/QHx92mlF43zF6GTEil-Cyw)
